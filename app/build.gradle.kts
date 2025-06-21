@@ -15,12 +15,14 @@ val localProperties = Properties().apply {
 
 android {
     signingConfigs {
+        /*
         getByName("debug") {
             storeFile = file(localProperties.getProperty("storeFilePath"))
             storePassword = localProperties.getProperty("storePassword")
             keyAlias = localProperties.getProperty("keyAlias")
             keyPassword = localProperties.getProperty("keyPassword")
         }
+        // */
         create("release") {
             storeFile = file(localProperties.getProperty("storeFilePath"))
             storePassword = localProperties.getProperty("storePassword")
@@ -37,8 +39,6 @@ android {
         targetSdk = libs.versions.targetsdk.get().toInt()
         versionCode = project.property("app.versionCode").toString().toInt()
         versionName = project.property("app.versionName").toString()
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -95,9 +95,6 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.test.junit)
-    androidTestImplementation(libs.test.androidx.junit)
-    androidTestImplementation(libs.test.androidx.espresso)
 
     implementation(libs.google.material)
     implementation(libs.androidx.activity)

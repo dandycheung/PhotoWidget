@@ -12,7 +12,6 @@ android {
     defaultConfig {
         minSdk = libs.versions.minsdk.get().toInt()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -42,20 +41,13 @@ dependencies {
     implementation(project(":core:model"))
 
     implementation(libs.androidx.core.ktx)
-    testImplementation(libs.test.junit)
-    androidTestImplementation(libs.test.androidx.junit)
-    androidTestImplementation(libs.test.androidx.espresso)
 
     implementation(libs.androidx.paging)
-    testImplementation(libs.androidx.paging.testing)
 
     api(libs.androidx.room)
     ksp(libs.androidx.room.compiler)
     api(libs.androidx.room.ktx)
     api(libs.androidx.room.paging)
-    testImplementation(libs.androidx.room.testing)
 
     implementation(libs.koin.android)
-    testImplementation(libs.koin.test)
-    testImplementation(libs.koin.test.junit)
 }
