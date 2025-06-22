@@ -50,10 +50,16 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
+
+            val appCenterSecret = localProperties.getProperty("appCenterSecretRelease")
+            buildConfigField("String", "APP_CENTER_SECRET", "\"${appCenterSecret}\"")
         }
 
         debug {
             signingConfig = signingConfigs.getByName("debug")
+
+            val appCenterSecret = localProperties.getProperty("appCenterSecretDebug")
+            buildConfigField("String", "APP_CENTER_SECRET", "\"${appCenterSecret}\"")
         }
     }
 
@@ -78,18 +84,13 @@ android {
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
+    arg("room.expandProjection", "true")
+}
+
 dependencies {
-    implementation(project(":core:model"))
-    implementation(project(":core:database"))
-    implementation(project(":core:analysis"))
-    implementation(project(":core:common"))
-
-    implementation(project(":feature:about"))
-    implementation(project(":feature:settings"))
-    implementation(project(":feature:link"))
-    implementation(project(":feature:main"))
-    implementation(project(":feature:widget"))
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.swiperefreshlayout)
@@ -100,6 +101,18 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.fragment)
 
+    implementation(libs.androidx.paging)
+
+    api(libs.androidx.room)
+    ksp(libs.androidx.room.compiler)
+    api(libs.androidx.room.ktx)
+    api(libs.androidx.room.paging)
+
+    implementation(libs.koin.android)
+
+    implementation(libs.androidx.startup)
+    implementation(libs.bundles.appcenter)
+
     // WorkManager 执行时会触发 AppWidgetProvider.onUpdate() 回调，导致不可控的行为。
     // 在 AppWidgetProvider.onUpdate() 通过 WorkManager 执行刷新微件，会导致无限循环，所以暂时改用 JobScheduler 代替。
     // 具体可见：https://medium.com/intive-developers/toss-a-coin-to-your-widget-or-dont-part-1-of-3-188c39d50b66
@@ -108,4 +121,8 @@ dependencies {
 
     implementation(libs.glide)
     ksp(libs.glide.compiler)
+
+    implementation(libs.ucrop)
+    implementation(libs.compressor)
+    implementation(libs.colorpickerview)
 }
